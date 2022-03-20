@@ -1,10 +1,3 @@
-//
-//  weatherManager.swift
-//  Clima
-//
-//  Created by ARC on 17/03/22.
-//  Copyright © 2022 App Brewery. All rights reserved.
-//
 
 import Foundation
 
