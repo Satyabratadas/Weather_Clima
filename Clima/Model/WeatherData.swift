@@ -1,10 +1,4 @@
-//
-//  WeatherData.swift
-//  Clima
-//
-//  Created by ARC on 21/03/22.
-//  Copyright © 2022 App Brewery. All rights reserved.
-//
+
 
 import Foundation
 
