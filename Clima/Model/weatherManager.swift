@@ -1,7 +1,8 @@
 
 import Foundation
 protocol WeatherManagerdDelegate {
-    func updateWeather(waether:WeatherModel)
+    func updateWeather(_ weatherManager:WeatherManager, weather:WeatherModel)
+    func didError(error:Error)
 }
 
 struct WeatherManager{
@@ -21,12 +22,12 @@ struct WeatherManager{
             
             let task = Session.dataTask(with: url) { (data, response, error) in
                 if error != nil{
-                    print(error!)
+                    self.delegate?.didError(error: error!)
                     return
                 }
                 if let safedata = data{
-                    if let weather = self.jsonParse(weatherData: safedata){
-                        delegate?.updateWeather(waether: weather)
+                    if let weather = self.jsonParse(safedata){
+                        delegate?.updateWeather(self, weather: weather)
                     }
                 }
             }
@@ -34,7 +35,7 @@ struct WeatherManager{
         }
     }
     
-    func jsonParse(weatherData:Data)->WeatherModel?{
+    func jsonParse(_ weatherData:Data)->WeatherModel?{
         let decoder = JSONDecoder()
         do{
             let decodedData = try decoder.decode(WeatherData.self, from: weatherData)
@@ -44,7 +45,7 @@ struct WeatherManager{
             let weather = WeatherModel(conditionId: Id, Name: name, Temperature: temp)
             return weather
         }catch{
-            print(error)
+            delegate?.didError(error: error)
             return nil
         }
     }
